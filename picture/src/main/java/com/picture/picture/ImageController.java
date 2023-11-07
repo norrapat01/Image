@@ -100,13 +100,13 @@ public class ImageController {
         return ResponseEntity.ok("Image updated successfully");
     }
 
-    @PutMapping("/update/{name}/{imagelocation}")
-    public ResponseEntity<String> updateImageformName(@RequestParam("id") long id,
+    @PutMapping("/update/freelance/{imgfree_id}")
+    public ResponseEntity<String> updateImageForFreelance(
+            @PathVariable("imgfree_id") long imgfree_id,
             @RequestParam("image") MultipartFile file,
-            @RequestParam("imagelocation") long imagelocation,
             @RequestParam("name") String name)
             throws IOException, SerialException, SQLException {
-        Image existingImage = imageService.getImageByNameAndImagelocation(name, imagelocation);
+        Image existingImage = imageService.getImageByImgFreeId(imgfree_id);
         if (existingImage == null) {
             return ResponseEntity.notFound().build();
         }
@@ -116,8 +116,7 @@ public class ImageController {
         Blob newImageBlob = new javax.sql.rowset.serial.SerialBlob(bytes);
         existingImage.setImage(newImageBlob);
 
-        // Update the imagelocation and name
-        existingImage.setImagelocation(imagelocation);
+        // Update the name (if needed)
         existingImage.setName(name);
 
         imageService.create(existingImage);

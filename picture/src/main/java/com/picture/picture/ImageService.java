@@ -10,4 +10,5 @@ public interface ImageService {
     public Image viewById(long id);
     public Image getImagesByImagelocation(Long imagelocation);
     public Image getImageByNameAndImagelocation(String name, Long imagelocation);
+    public Image getImageByImgFreeId(long imgfree_id);
 }

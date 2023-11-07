@@ -16,4 +16,6 @@ List<Image>   findAll();
 Image findImageByImagelocation(long imagelocation);
 
 Image getImageByNameAndImagelocation(String name, Long imagelocation);
+
+Image getImageByImgFreeId(long imgfree_id);
 }
