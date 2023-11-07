@@ -100,13 +100,13 @@ public class ImageController {
         return ResponseEntity.ok("Image updated successfully");
     }
 
-    @PutMapping("/update/freelance/{imgfree_id}")
+    @PutMapping("/update/{name}/{imagelocation}")
     public ResponseEntity<String> updateImageForFreelance(
-            @PathVariable("imgfree_id") long imgfree_id,
+            @PathVariable("imagelocation") long imagelocation,
             @RequestParam("image") MultipartFile file,
             @RequestParam("name") String name)
             throws IOException, SerialException, SQLException {
-        Image existingImage = imageService.getImageByImgFreeId(imgfree_id);
+        Image existingImage = imageService.getImageByNameAndImagelocation(name, imagelocation);
         if (existingImage == null) {
             return ResponseEntity.notFound().build();
         }

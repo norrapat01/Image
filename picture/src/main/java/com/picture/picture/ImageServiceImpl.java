@@ -32,11 +32,4 @@ public class ImageServiceImpl implements ImageService {
         // TODO Auto-generated method stub
         return imageRepository.getImageByNameAndImagelocation(name,imagelocation);
     }
-    @Override
-    public Image getImageByImgFreeId(long imgfree_id) {
-        // TODO Auto-generated method stub
-        return imageRepository.getImageByImgFreeId(imgfree_id);
-    }
-
-  
 }
