@@ -22,7 +22,6 @@ import java.sql.Blob;
 import java.sql.SQLException;
 import java.util.List;
 
-
 @CrossOrigin
 @Controller
 @RestController
@@ -72,7 +71,6 @@ public class ImageController {
         image.setImage(blob);
         Long imageId = imageService.create(image); // Assuming imageService.create returns the ID of the newly created
                                                    // image
-
         // Return the ID of the uploaded image in the response
         return ResponseEntity.ok(imageId);
     }
@@ -84,6 +82,31 @@ public class ImageController {
             @RequestParam("name") String name)
             throws IOException, SerialException, SQLException {
         Image existingImage = imageService.viewById(id);
+        if (existingImage == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        // Update the image data
+        byte[] bytes = file.getBytes();
+        Blob newImageBlob = new javax.sql.rowset.serial.SerialBlob(bytes);
+        existingImage.setImage(newImageBlob);
+
+        // Update the imagelocation and name
+        existingImage.setImagelocation(imagelocation);
+        existingImage.setName(name);
+
+        imageService.create(existingImage);
+
+        return ResponseEntity.ok("Image updated successfully");
+    }
+
+    @PutMapping("/update/{name}/{imagelocation}")
+    public ResponseEntity<String> updateImageformName(@RequestParam("id") long id,
+            @RequestParam("image") MultipartFile file,
+            @RequestParam("imagelocation") long imagelocation,
+            @RequestParam("name") String name)
+            throws IOException, SerialException, SQLException {
+        Image existingImage = imageService.getImageByNameAndImagelocation(name, imagelocation);
         if (existingImage == null) {
             return ResponseEntity.notFound().build();
         }
